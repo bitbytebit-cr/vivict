@@ -39,7 +39,7 @@ class SourceSelector extends Component {
 
         const videoTrack = mp4Metadata.videoTracks[0];
         var bitrate = 0
-        if (videoTrack.hasOwnProperty("bitrate")) {
+        if (!videoTrack.includes('bitrate')) {
             bitrate = videoTrack.bitrate
         }
         const metadata = {
