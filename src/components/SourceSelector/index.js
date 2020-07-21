@@ -38,20 +38,22 @@ class SourceSelector extends Component {
         const mp4Metadata = await mp4Info(url);
 
         const videoTrack = mp4Metadata.videoTracks[0];
-        var bitrate = 0
-        if (!videoTrack.includes('bitrate')) {
-            bitrate = videoTrack.bitrate
+        if (videoTrack) {
+            var bitrate = 0
+            if (videoTrack.bitrate) {
+                bitrate = videoTrack.bitrate
+            }
+            const metadata = {
+                variants: [
+                    {
+                        bitrate: bitrate,
+                        width: videoTrack.video.width,
+                        height: videoTrack.video.height
+                    }
+                ]
+            };
+            this.setState({metadata})
         }
-        const metadata = {
-            variants: [
-                {
-                    bitrate: bitrate,
-                    width: videoTrack.video.width,
-                    height: videoTrack.video.height
-                }
-            ]
-        };
-        this.setState({metadata})
     }
 
     componentDidMount() {
