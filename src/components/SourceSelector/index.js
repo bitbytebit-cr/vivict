@@ -38,10 +38,14 @@ class SourceSelector extends Component {
         const mp4Metadata = await mp4Info(url);
 
         const videoTrack = mp4Metadata.videoTracks[0];
+        var bitrate = 0
+        if (videoTrack.hasOwnProperty("bitrate")) {
+            bitrate = videoTrack.bitrate
+        }
         const metadata = {
             variants: [
                 {
-                    bitrate: videoTrack.bitrate,
+                    bitrate: bitrate,
                     width: videoTrack.video.width,
                     height: videoTrack.video.height
                 }
