@@ -30,6 +30,7 @@ const rightVideoUrl = urlParams.get('rightVideoUrl') || leftVideoUrl;
 const leftVideoVariant = Number(urlParams.get('leftVideoVariant')) || 0;
 const rightVideoVariant = Number(urlParams.get('rightVideoVariant')) || 0;
 const startPosition = Number(urlParams.get('position')) || 0;
+const duration = Number(urlParams.get('duration')) || 0;
 const hideSourceSelector = Boolean(urlParams.get('hideSourceSelector'));
 const hideHelp = Boolean(urlParams.get('hideHelp'));
 
@@ -38,14 +39,16 @@ const DEFAULT_SOURCE_LEFT = {
     name: leftVideoUrl,
     url: leftVideoUrl,
     variant: leftVideoVariant,
-    position: startPosition
+    position: startPosition,
+    duration: duration
 };
 const DEFAULT_SOURCE_RIGHT = {
     type:  sourceType(rightVideoUrl),
     name: rightVideoUrl,
     url: rightVideoUrl,
     variant: rightVideoVariant,
-    position: startPosition
+    position: startPosition,
+    duration: duration
 };
 
 class VideoViewer extends Component {
@@ -181,6 +184,7 @@ class VideoViewer extends Component {
             const rightVariantParam = isDashOrHls(this.state.rightSource.type) ?
                 `&rightVideoVariant=${this.state.rightSource.variant}` : "";
             const path = `${window.location.host}${window.location.pathname}?position=${this.state.position}`
+            + `&duration=${this.state.duration}`
             + `&leftVideoUrl=${this.state.leftSource.url}${leftVariantParam}`
             + `&rightVideoUrl=${this.state.rightSource.url}${rightVariantParam}`
             + (urlParams.get('hideSourceSelector') ? `&hideSourceSelector=${urlParams.get('hideSourceSelector')}` : "")
