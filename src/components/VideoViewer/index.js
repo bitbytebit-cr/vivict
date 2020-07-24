@@ -84,15 +84,6 @@ class VideoViewer extends Component {
 
         this.onFullScreenChange = this.onFullScreenChange.bind(this);
 
-        // Setup canvases for Phash analyzing
-        this.leftframebuffer = document.createElement("canvas");
-        this.leftframebuffer.width = this.leftVideo.videoWidth;
-        this.leftframebuffer.height = this.leftVideo.videoHeight;
-        this.leftctx = this.leftframebuffer.getContext("2d");
-        this.rightframebuffer = document.createElement("canvas");
-        this.rightframebuffer.width = this.rightVideo.videoWidth;
-        this.rightframebuffer.height = this.rigthVideo.videoHheight;
-        this.rightctx = this.rightframebuffer.getContext("2d");
         // This variable used to pass ourself to event call-backs
         var self = this;
         // Start rendering when the video is playing
@@ -118,6 +109,18 @@ class VideoViewer extends Component {
         this.analyzeFrames = function() {
             // Acquire a video frame from the video element
             // leftctx, rightctx, hamming
+            // Setup canvases for Phash analyzing
+            if (this.leftVideo == null && this.rightVideo == null) {
+                return;
+            }
+            this.leftframebuffer = document.createElement("canvas");
+            this.leftframebuffer.width = this.leftVideo.videoWidth;
+            this.leftframebuffer.height = this.leftVideo.videoHeight;
+            this.leftctx = this.leftframebuffer.getContext("2d");
+            this.rightframebuffer = document.createElement("canvas");
+            this.rightframebuffer.width = this.rightVideo.videoWidth;
+            this.rightframebuffer.height = this.rightVideo.videoHeight;
+            this.rightctx = this.rightframebuffer.getContext("2d");
             this.leftctx.drawImage(this.leftVideo, 0, 0, this.leftVideo.videoWidth,
                         this.leftVideo.videoHeight, 0, 0, this.leftVideo.videoWidth, this.leftVideo.videoHeight);
             var leftdata = this.leftctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
