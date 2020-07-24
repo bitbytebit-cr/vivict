@@ -15,7 +15,7 @@ import {FiPlay} from 'react-icons/fi';
 import cx from 'classnames';
 import {isHlsPlaylist} from "../../util/HlsUtils";
 import {isDashOrHls, sourceType} from "../../util/SourceUtils";
-import {frameAnalyzer} from "../../util/FrameAnalyzer";
+import {pHash, hammingDistance} from "../../util/Phash";
 
 const DEFAULT_SOURCES = {
     hls: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
@@ -83,8 +83,60 @@ class VideoViewer extends Component {
         console.dir(this.state);
 
         this.onFullScreenChange = this.onFullScreenChange.bind(this);
-        // Frame Analyzer with PHash hamming distance
-        this.fa = new frameAnalyzer(this.leftVideo, this.rightVideo);
+
+        // Setup canvases for Phash analyzing
+        this.leftframebuffer = document.createElement("canvas");
+        this.leftframebuffer.width = this.leftVideo.videoWidth;
+        this.leftframebuffer.height = this.leftVideo.videoHeight;
+        this.leftctx = this.leftframebuffer.getContext("2d");
+        this.rightframebuffer = document.createElement("canvas");
+        this.rightframebuffer.width = this.rightVideo.videoWidth;
+        this.rightframebuffer.height = this.rigthVideo.videoHheight;
+        this.rightctx = this.rightframebuffer.getContext("2d");
+        // This variable used to pass ourself to event call-backs
+        var self = this;
+        // Start rendering when the video is playing
+        this.video.addEventListener("play", function() {
+                self.calculatePhash();
+            }, false);
+        // Get the current hamming distance
+        this.hamming = 0;
+        this.getHamming = function() {
+            return this.hamming;
+        }
+        // Phash calculation call-back
+        this.calculatePhash = function() {
+            if (this.leftVideo.paused || this.leftVideo.ended) {
+              return;
+            }
+            this.analyzeFrames();
+            var self = this;
+            // Render every 10 ms
+            setTimeout(function () {
+                self.calculatePhash();
+              }, 10);
+        };
+        // Compute PHash hamming distance between left and right frames
+        this.analyzeFrames function() {
+            // Acquire a video frame from the video element
+            // leftctx, rightctx, hamming
+            this.leftctx.drawImage(this.leftVideo, 0, 0, this.leftVideo.videoWidth,
+                        this.leftVideo.videoHeight, 0, 0, this.leftVideo.videoWidth, this.leftVideo.videoHeight);
+            var leftdata = this.leftctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
+            this.rightctx.drawImage(this.rightVideo, 0, 0, this.rightVideo.videoWidth,
+                        this.rightVideo.videoHeight, 0, 0, this.rightVideo.videoWidth, this.rightVideo.videoHeight);
+            var rightdata = this.rightctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
+            // calculate phash
+            var lefthash = pHash(leftdata)
+            var righthash = pHash(rightdata)
+            this.hamming = 0
+            // calc hamming distance
+            this.hamming = hammingDistance(lefthash, righthash);
+            // draw phash value on frame
+            //this.leftframebuffer.font = "18px Georgia";
+            //this.leftframebuffer.fillText(this.hamming, 10, 10);
+            //this.leftframebuffer.putImageData(leftdata, 0, 0);
+        };
     }
 
     setPosition(position) {
@@ -147,10 +199,12 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
-        if (this.fa != null && typeof this.fa.getHamming !== "undefined") {
-            console.log(`time: ${this.rightVideo.currentTime()} hamming: ${this.fa.getHamming()}`);
-        }
-        if (this.rightVideo.currentTime() >= (startPosition + playDuration)) {
+        console.log(`time: ${this.rightVideo.currentTime()} hamming: ${this.getHamming()}`);
+        if (this.rightVideo.currentTime() >= (startPosition + playDuration)
+                || this.leftVideo.currentTime() >= (startPostion + playDuration)) {
+            this.leftVideo.seek(this.leftVideo.currentTime());
+            this.rightVideo.seek(this.rightVideo.currentTime());
+            this.setPosition(this.leftVideo.currentTime());
             this.pause()
             alert("Please score the Video Quality using 0-5 with 0 as worst and 5 as best.");
         }

@@ -48,10 +48,10 @@ export function frameAnalyzer(leftvideo, rightvideo) {
     // Compute and display the next frame
     this.renderFrame = function() {
         // Acquire a video frame from the video element
-        this.ctx.drawImage(this.leftvideo, 0, 0, this.leftvideo.videoWidth,
+        this.leftctx.drawImage(this.leftvideo, 0, 0, this.leftvideo.videoWidth,
                     this.leftvideo.videoHeight,0,0,this.width, this.height);
         var leftdata = this.leftctx.getImageData(0, 0, this.width, this.height);
-        this.ctx.drawImage(this.rightvideo, 0, 0, this.rightvideo.videoWidth,
+        this.rightctx.drawImage(this.rightvideo, 0, 0, this.rightvideo.videoWidth,
                     this.rightvideo.videoHeight,0,0,this.width, this.height);
         var rightdata = this.rightctx.getImageData(0, 0, this.width, this.height);
         // calculate phash
