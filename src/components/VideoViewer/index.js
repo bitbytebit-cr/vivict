@@ -16,7 +16,7 @@ import cx from 'classnames';
 import {isHlsPlaylist} from "../../util/HlsUtils";
 import {isDashOrHls, sourceType} from "../../util/SourceUtils";
 import {pHash, hammingDistance} from "../../util/Phash";
-import {processor} from "../../util/Processor";
+//import {processor} from "../../util/Processor";
 
 const DEFAULT_SOURCES = {
     hls: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
@@ -41,16 +41,14 @@ const DEFAULT_SOURCE_LEFT = {
     name: leftVideoUrl,
     url: leftVideoUrl,
     variant: leftVideoVariant,
-    position: startPosition,
-    duration: playDuration
+    position: startPosition
 };
 const DEFAULT_SOURCE_RIGHT = {
     type:  sourceType(rightVideoUrl),
     name: rightVideoUrl,
     url: rightVideoUrl,
     variant: rightVideoVariant,
-    position: startPosition,
-    duration: playDuration
+    position: startPosition
 };
 
 class VideoViewer extends Component {
@@ -149,7 +147,7 @@ class VideoViewer extends Component {
     onTimeUpdate(time) {
         this.setPosition(time);
         if (this.rightVideo.currentTime() >= (startPosition + playDuration)) {
-            this.pause()
+            await this.pause()
             alert("Please score the Video Quality using 0-5 with 0 as worst and 5 as best.");
         }
     }
