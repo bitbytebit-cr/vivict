@@ -15,7 +15,7 @@ import {FiPlay} from 'react-icons/fi';
 import cx from 'classnames';
 import {isHlsPlaylist} from "../../util/HlsUtils";
 import {isDashOrHls, sourceType} from "../../util/SourceUtils";
-import {frameConverter} from "../../util/FrameConverter";
+import {frameAnalyzer} from "../../util/FrameAnalyzer";
 
 const DEFAULT_SOURCES = {
     hls: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
@@ -83,15 +83,8 @@ class VideoViewer extends Component {
         console.dir(this.state);
 
         this.onFullScreenChange = this.onFullScreenChange.bind(this);
-
-        // setup frame converter with phash hamming text burn-in
-        this.video = document.getElementById("video");
-        this.canvas = document.getElementById("canvas");
-        if (this.canvas) {
-            this.fc = new frameConverter(this.video, this.canvas);
-        } else {
-            alert("Could not get Canvas for frameConverter");
-        }
+        // Frame Analyzer with PHash hamming distance
+        this.fa = new frameAnalyzer(this.leftVideo, this.rightVideo);
     }
 
     setPosition(position) {
@@ -154,7 +147,7 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
-        console.log(`time: ${this.rightVideo.currentTime()} hamming: ${this.fc.getHamming()}`);
+        console.log(`time: ${this.rightVideo.currentTime()} hamming: ${this.fa.getHamming()}`);
         if (this.rightVideo.currentTime() >= (startPosition + playDuration)) {
             this.pause()
             alert("Please score the Video Quality using 0-5 with 0 as worst and 5 as best.");
