@@ -1,6 +1,6 @@
 import {pHash, hammingDistance} from './Phash';
 
-function frameConverter(video, canvas) {
+export function frameConverter(video, canvas) {
     // Set up our frame converter
     this.video = video;
     this.viewport = canvas.getContext("2d");
