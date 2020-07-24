@@ -199,7 +199,7 @@ class VideoViewer extends Component {
         this.setPosition(time);
         console.log(`time: ${this.rightVideo.currentTime()} hamming: ${this.getHamming()}`);
         if (this.rightVideo.currentTime() >= (startPosition + playDuration)
-                || this.leftVideo.currentTime() >= (startPostion + playDuration)) {
+                || this.leftVideo.currentTime() >= (startPosition + playDuration)) {
             this.leftVideo.seek(this.leftVideo.currentTime());
             this.rightVideo.seek(this.rightVideo.currentTime());
             this.setPosition(this.leftVideo.currentTime());
