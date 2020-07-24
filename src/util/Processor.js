@@ -1,4 +1,4 @@
-import {pHash, hammingDistance} from 'Phash';
+import {pHash, hammingDistance} from './Phash';
 
 let processor = {
     timerCallback: function() {
