@@ -96,9 +96,7 @@ class VideoViewer extends Component {
         // This variable used to pass ourself to event call-backs
         var self = this;
         // Start rendering when the video is playing
-        this.video.addEventListener("play", function() {
-                self.calculatePhash();
-            }, false);
+        this.video.addEventListener("play", function() {self.calculatePhash();}, false);
         // Get the current hamming distance
         this.hamming = 0;
         this.getHamming = function() {
@@ -117,7 +115,7 @@ class VideoViewer extends Component {
               }, 10);
         };
         // Compute PHash hamming distance between left and right frames
-        this.analyzeFrames function() {
+        this.analyzeFrames = function() {
             // Acquire a video frame from the video element
             // leftctx, rightctx, hamming
             this.leftctx.drawImage(this.leftVideo, 0, 0, this.leftVideo.videoWidth,
