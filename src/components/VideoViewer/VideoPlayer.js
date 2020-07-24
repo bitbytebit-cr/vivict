@@ -24,7 +24,11 @@ class VideoPlayer extends Component {
         // setup frame converter with phash hamming text burn-in
         this.video = document.getElementById("video");
         this.canvas = document.getElementById("canvas");
-        this.fc = new frameConverter(this.video, this.canvas);
+        if (this.canvas) {
+            this.fc = new frameConverter(this.video, this.canvas);
+        } else {
+            alert("Could not get Canvas for frameConverter");
+        }
     }
 
     onTimeUpdate() {
