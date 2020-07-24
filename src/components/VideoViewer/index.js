@@ -16,6 +16,7 @@ import cx from 'classnames';
 import {isHlsPlaylist} from "../../util/HlsUtils";
 import {isDashOrHls, sourceType} from "../../util/SourceUtils";
 import {pHash, hammingDistance} from "../../util/Phash";
+import {processor} from "../../util/Processor";
 
 const DEFAULT_SOURCES = {
     hls: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
