@@ -1,3 +1,5 @@
+import {pHash, hammingDistance} from 'Phash';
+
 let processor = {
     timerCallback: function() {
       if (this.video.paused || this.video.ended) {
@@ -36,12 +38,13 @@ let processor = {
         if (g > 100 && r > 100 && b < 43)
           frame.data[i * 4 + 3] = 0;
       }
+      this.ctx2.font = "20px Georgia";
+      this.ctx2.fillText("Hello World!", 10, 10);
       this.ctx2.putImageData(frame, 0, 0);
       return;
     }
-  };
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   processor.doLoad();
 });
-
