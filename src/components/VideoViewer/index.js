@@ -30,7 +30,7 @@ const rightVideoUrl = urlParams.get('rightVideoUrl') || leftVideoUrl;
 const leftVideoVariant = Number(urlParams.get('leftVideoVariant')) || 0;
 const rightVideoVariant = Number(urlParams.get('rightVideoVariant')) || 0;
 const startPosition = Number(urlParams.get('position')) || 0;
-const duration = Number(urlParams.get('duration')) || 0;
+const playDuration = Number(urlParams.get('duration')) || 0;
 const hideSourceSelector = Boolean(urlParams.get('hideSourceSelector'));
 const hideHelp = Boolean(urlParams.get('hideHelp'));
 
@@ -40,7 +40,7 @@ const DEFAULT_SOURCE_LEFT = {
     url: leftVideoUrl,
     variant: leftVideoVariant,
     position: startPosition,
-    duration: duration
+    duration: playDuration
 };
 const DEFAULT_SOURCE_RIGHT = {
     type:  sourceType(rightVideoUrl),
@@ -48,7 +48,7 @@ const DEFAULT_SOURCE_RIGHT = {
     url: rightVideoUrl,
     variant: rightVideoVariant,
     position: startPosition,
-    duration: duration
+    duration: playDuration
 };
 
 class VideoViewer extends Component {
@@ -146,6 +146,13 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
+        if (this.rightVideo.currentTime() > (startPosition + playDuration)) {
+            if(this.state.playing) {
+                this.pause()
+            }
+            this.seek(startPosition);
+            this.setPosition(time);
+        }
     }
 
     onDurationSet(duration) {
