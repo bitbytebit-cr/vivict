@@ -2,6 +2,11 @@ import {pHash, hammingDistance} from './Phash';
 
 export function frameAnalyzer(leftvideo, rightvideo) {
     // Set up our frame analyzer
+    if (leftvideo == null || rightvideo == null) {
+        // nothing to analyze yet
+        console.log("frameAnalyzer: Left and Right video are null");
+        return;
+    }
     this.leftvideo = leftvideo;
     this.rightvideo = rightvideo;
     this.width = this.leftvideo.width;
