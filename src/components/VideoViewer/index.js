@@ -154,9 +154,10 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
+        console.log(`${JSON.stringify(videoElement.props)} hamming: ${this.fc.getHamming()}`);
         if (this.rightVideo.currentTime() >= (startPosition + playDuration)) {
-            //alert("Please score the Video Quality using 0-5 with 0 as worst and 5 as best.");
             this.pause()
+            alert("Please score the Video Quality using 0-5 with 0 as worst and 5 as best.");
         }
     }
 

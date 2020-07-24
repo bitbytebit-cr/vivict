@@ -3,9 +3,11 @@ import {pHash, hammingDistance} from './Phash';
 export function frameConverter(video, canvas) {
     // Set up our frame converter
     this.video = video;
-    this.viewport = canvas.getContext("2d");
-    this.width = canvas.width;
-    this.height = canvas.height;
+    //this.viewport = canvas.getContext("2d");
+    //this.width = this.canvas.width;
+    //this.height = this.canvas.height;
+    this.width = this.video.width;
+    this.height = this.video.height;
     // Create the frame-buffer canvas
     this.framebuffer = document.createElement("canvas");
     this.framebuffer.width = this.width;
@@ -19,6 +21,11 @@ export function frameConverter(video, canvas) {
     this.video.addEventListener("play", function() {
         self.render();
       }, false);
+
+    // Get the current hamming distance
+    this.getHamming = function() {
+        return this.hamming;
+    }
 
     // Rendering call-back
     this.render = function() {
@@ -46,9 +53,9 @@ export function frameConverter(video, canvas) {
             // calc hamming distance
             this.hamming = hammingDistance(this.prev_hash, this.hash);
             // draw phash value on frame
-            this.viewport.font = "18px Georgia";
+            /*this.viewport.font = "18px Georgia";
             this.viewport.fillText(this.hamming, 10, 10);
-            this.viewport.putImageData(data, 0, 0);
+            this.viewport.putImageData(data, 0, 0);*/
         }
         this.prev_hash = this.hash;
     return;
