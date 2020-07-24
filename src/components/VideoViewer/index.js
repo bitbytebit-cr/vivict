@@ -15,6 +15,7 @@ import {FiPlay} from 'react-icons/fi';
 import cx from 'classnames';
 import {isHlsPlaylist} from "../../util/HlsUtils";
 import {isDashOrHls, sourceType} from "../../util/SourceUtils";
+import {frameConverter} from "../../util/FrameConverter";
 
 const DEFAULT_SOURCES = {
     hls: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
@@ -82,6 +83,15 @@ class VideoViewer extends Component {
         console.dir(this.state);
 
         this.onFullScreenChange = this.onFullScreenChange.bind(this);
+
+        // setup frame converter with phash hamming text burn-in
+        this.video = document.getElementById("video");
+        this.canvas = document.getElementById("canvas");
+        if (this.canvas) {
+            this.fc = new frameConverter(this.video, this.canvas);
+        } else {
+            alert("Could not get Canvas for frameConverter");
+        }
     }
 
     setPosition(position) {

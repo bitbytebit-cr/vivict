@@ -3,7 +3,7 @@ import Hls from 'hls.js'
 import dashjs from 'dashjs';
 import {isHlsPlaylist} from "../../util/HlsUtils";
 import {isDashManifest} from "../../util/DashUtils";
-import {frameConverter} from "../../util/FrameConverter";
+//import {frameConverter} from "../../util/FrameConverter";
 
 const zoomInMultiplier = 1.1;
 const zoomOutMultiplier = 1/zoomInMultiplier;
@@ -22,13 +22,13 @@ class VideoPlayer extends Component {
             this.videoElement = videoRef;
         };
         // setup frame converter with phash hamming text burn-in
-        this.video = document.getElementById("video");
+        /*this.video = document.getElementById("video");
         this.canvas = document.getElementById("canvas");
         if (this.canvas) {
             this.fc = new frameConverter(this.video, this.canvas);
         } else {
             alert("Could not get Canvas for frameConverter");
-        }
+        }*/
     }
 
     onTimeUpdate() {
