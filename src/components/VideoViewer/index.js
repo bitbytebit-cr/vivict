@@ -126,9 +126,10 @@ class VideoViewer extends Component {
             // calculate phash
             var lefthash = pHash(leftdata)
             var righthash = pHash(rightdata)
-            this.hamming = 0
+            console.log(`Phash leftHash: ${lefthash} rightHash: ${righthash}`);
             // calc hamming distance
             this.hamming = hammingDistance(lefthash, righthash);
+            console.log(`Phash hamming: ${this.hamming}`);
             // draw phash value on frame
             //this.leftframebuffer.font = "18px Georgia";
             //this.leftframebuffer.fillText(this.hamming, 10, 10);
