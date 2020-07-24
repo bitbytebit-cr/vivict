@@ -15,6 +15,7 @@ import {FiPlay} from 'react-icons/fi';
 import cx from 'classnames';
 import {isHlsPlaylist} from "../../util/HlsUtils";
 import {isDashOrHls, sourceType} from "../../util/SourceUtils";
+import {pHash, hammingDistance} from "../../util/Phash";
 
 const DEFAULT_SOURCES = {
     hls: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
@@ -146,12 +147,9 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
-        if (this.rightVideo.currentTime() > (startPosition + playDuration)) {
-            if(this.state.playing) {
-                this.pause()
-            }
-            this.seek(startPosition);
-            this.setPosition(time);
+        if (this.rightVideo.currentTime() >= (startPosition + playDuration)) {
+            this.pause()
+            alert("Please score the Video Quality using 0-5 with 0 as worst and 5 as best.");
         }
     }
 
