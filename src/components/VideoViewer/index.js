@@ -84,10 +84,6 @@ class VideoViewer extends Component {
 
         this.onFullScreenChange = this.onFullScreenChange.bind(this);
 
-        // This variable used to pass ourself to event call-backs
-        var self = this;
-        // Start rendering when the video is playing
-        this.videoViewer.addEventListener("play", function() {self.calculatePhash();}, false);
         // Get the current hamming distance
         this.hamming = 0;
         this.getHamming = function() {
@@ -395,6 +391,9 @@ class VideoViewer extends Component {
         this.seek(startPosition)
             .catch(e => console.trace(e));
         this.videoViewer.addEventListener('fullscreenchange', this.onFullScreenChange);
+        // Start rendering when the video is playing
+        var self = this;
+        this.videoViewer.addEventListener('play', function() {self.calculatePhash();}, false);
     }
 
     componentWillUnmount(){
