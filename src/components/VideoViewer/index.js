@@ -87,7 +87,7 @@ class VideoViewer extends Component {
         // This variable used to pass ourself to event call-backs
         var self = this;
         // Start rendering when the video is playing
-        this.video.addEventListener("play", function() {self.calculatePhash();}, false);
+        this.videoViewer.addEventListener("play", function() {self.calculatePhash();}, false);
         // Get the current hamming distance
         this.hamming = 0;
         this.getHamming = function() {
