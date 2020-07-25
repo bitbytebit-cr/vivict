@@ -131,7 +131,11 @@ class VideoPlayer extends Component {
         this.ctx.drawImage(this.videoElement, 0, 0, width, height, 0, 0, width, height);
         var data = this.ctx.getImageData(0, 0, width, height);
         // calculate phash
-        this.fingerprint = pHash(data);
+        if (data != null) {
+            this.fingerprint = pHash(data);
+        } else {
+            console.log(`getImageData() returned null data!`);
+        }
     }
 
     async loadSource(url, variant) {
