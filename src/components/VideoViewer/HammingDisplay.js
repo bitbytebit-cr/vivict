@@ -1,5 +1,5 @@
 import React from 'react';
 
-const HammingDisplay = ({this.hamming}) => (<div className="hamming-display">{this.hamming}</div>);
+const HammingDisplay = ({hamming}) => (<div className="hamming-display">{hamming}</div>);
 
 export default HammingDisplay;
