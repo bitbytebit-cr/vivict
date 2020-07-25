@@ -22,6 +22,7 @@ class VideoPlayer extends Component {
             this.videoElement = videoRef;
         };
         this.fingerprint = "";
+        this.fingerprint_ts = 0;
     }
 
     onTimeUpdate() {
@@ -133,8 +134,8 @@ class VideoPlayer extends Component {
         this.ctx.drawImage(this.videoElement, 0, 0, width, height, 0, 0, this.framebuffer.width, this.framebuffer.height);
         var im = this.ctx.getImageData(0, 0, this.framebuffer.width, this.framebuffer.height);
         // calculate phash
-        if (this.videoElement != null) {
-            //console.log(`videoElement Object Keys: ${Object.keys(this.videoElement)}`)
+        if (this.videoElement != null && this.fingerprint_ts != this.videoElement.currentTime) {
+            this.fingerprint_ts = this.videoElement.currentTime;
             this.fingerprint = pHash(im, this.framebuffer);
         } else {
             console.log(`videoElement is null!`);
