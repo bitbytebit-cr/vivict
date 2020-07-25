@@ -15,7 +15,7 @@ import {FiPlay} from 'react-icons/fi';
 import cx from 'classnames';
 import {isHlsPlaylist} from "../../util/HlsUtils";
 import {isDashOrHls, sourceType} from "../../util/SourceUtils";
-import {pHash, hammingDistance} from "../../util/Phash";
+import {hammingDistance} from "../../util/Phash";
 
 const DEFAULT_SOURCES = {
     hls: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
@@ -90,60 +90,18 @@ class VideoViewer extends Component {
         this.righthash = "21111111111111111111111111111111";
     }
 
-    // Phash calculation call-back
-    calculatePhash() {
-        console.log(`AnalyzeFrames()`)
-        if (this.leftVideo.paused || this.leftVideo.ended) {
-          return;
-        }
-        this.analyzeFrames();
-        var self = this;
-        // Render every 10 ms
-        setTimeout(function () {
-            self.calculatePhash();
-          }, 10);
-    };
     getHamming() {
         return this.hamming;
     }
+
     getLeftHash() {
         return this.lefthash;
     }
+
     getRightHash() {
         return this.righthash;
     }
-    // Compute PHash hamming distance between left and right frames
-    analyzeFrames() {
-        // Acquire a video frame from the video element
-        // leftctx, rightctx, hamming
-        // Setup canvases for Phash analyzing
-        if (this.leftVideo == null || this.rightVideo == null) {
-            return;
-        }
-        this.leftframebuffer = document.createElement("canvas");
-        this.leftframebuffer.width = this.leftVideo.videoWidth;
-        this.leftframebuffer.height = this.leftVideo.videoHeight;
-        this.leftctx = this.leftframebuffer.getContext("2d");
-        this.leftctx.drawImage(this.leftVideo, 0, 0, this.leftVideo.videoWidth,
-                    this.leftVideo.videoHeight, 0, 0, this.leftVideo.videoWidth, this.leftVideo.videoHeight);
-        var leftdata = this.leftctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
-        this.rightframebuffer = document.createElement("canvas");
-        this.rightframebuffer.width = this.rightVideo.videoWidth;
-        this.rightframebuffer.height = this.rightVideo.videoHeight;
-        this.rightctx = this.rightframebuffer.getContext("2d");
-        this.rightctx.drawImage(this.rightVideo, 0, 0, this.rightVideo.videoWidth,
-                    this.rightVideo.videoHeight, 0, 0, this.rightVideo.videoWidth, this.rightVideo.videoHeight);
-        var rightdata = this.rightctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
-        // calculate phash
-        this.lefthash = pHash(leftdata);
-        this.righthash = pHash(rightdata);
-        // calc hamming distance
-        this.hamming = hammingDistance(this.lefthash, this.righthash);
-        // draw phash value on frame
-        //this.leftframebuffer.font = "18px Georgia";
-        //this.leftframebuffer.fillText(this.hamming, 10, 10);
-        //this.leftframebuffer.putImageData(leftdata, 0, 0);
-    }
+
     setPosition(position) {
         this.setState({position});
     }
@@ -204,15 +162,9 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
-        //if (this.hamming == 0) {
-            // Start rendering when the video is playing
-            //var self = this;
-            //this.videoViewer.addEventListener('play', this.calculatePhash());
-            //this.analyzeFrames();
-            this.righthash = this.rightVideo.getFingerprint();
-            this.lefthash = this.leftVideo.getFingerprint();
-            this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
-        //}
+        this.righthash = this.rightVideo.getFingerprint();
+        this.lefthash = this.leftVideo.getFingerprint();
+        this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
         console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
         if (this.rightVideo.currentTime() > (startPosition + playDuration)
                 || this.leftVideo.currentTime() > (startPosition + playDuration)) {

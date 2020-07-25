@@ -3,7 +3,7 @@ import Hls from 'hls.js'
 import dashjs from 'dashjs';
 import {isHlsPlaylist} from "../../util/HlsUtils";
 import {isDashManifest} from "../../util/DashUtils";
-import {pHash, hammingDistance} from "../../util/Phash";
+import {pHash} from "../../util/Phash";
 
 const zoomInMultiplier = 1.1;
 const zoomOutMultiplier = 1/zoomInMultiplier;
