@@ -104,13 +104,14 @@ class VideoPlayer extends Component {
         if (!this.videoElement.paused && !this.videoElement.ended) {
             this.analyzeFrame();
         } else {
+            var self = this;
             setTimeout(function () {
                 self.calculatePhash();
               }, 30);
             return;
         }
-        var self = this;
         // Render every 10 ms
+        var self = this;
         setTimeout(function () {
             self.calculatePhash();
           }, 10);
