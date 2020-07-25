@@ -125,17 +125,20 @@ class VideoPlayer extends Component {
             return;
         }
         this.framebuffer = document.createElement("canvas");
-        this.framebuffer.width = width;
-        this.framebuffer.height = height;
+        this.framebuffer.width = 32;
+        this.framebuffer.height = 32;
+        //this.framebuffer.width = width;
+        //this.framebuffer.height = height;
         this.ctx = this.framebuffer.getContext("2d");
-        this.ctx.drawImage(this.videoElement, 0, 0, width, height, 0, 0, width, height);
-        var data = this.ctx.getImageData(0, 0, width, height);
+        /*this.ctx.drawImage(this.videoElement, 0, 0, width, height, 0, 0, width, height);
+        var data = this.ctx.getImageData(0, 0, width, height);*/
+        //document.body.appendChild(this.framebuffer);
         // calculate phash
-        if (data != null) {
-            console.log(`getImageData() Object Keys: ${Object.keys(data)}`)
-            this.fingerprint = pHash(data);
+        if (this.videoElement != null) {
+            console.log(`videoElement Object Keys: ${Object.keys(videoElement)}`)
+            this.fingerprint = pHash(this.ctx, this.framebuffer, this.VideoElement);
         } else {
-            console.log(`getImageData() returned null data!`);
+            console.log(`videoElement is null!`);
         }
     }
 

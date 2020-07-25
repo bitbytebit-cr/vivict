@@ -1,11 +1,11 @@
 // https://ironchef-team21.googlecode.com/git-history/75856e07bb89645d0e56820d6e79f8219a06bfb7/ironchef_team21/src/ImagePHash.java
 
-export function pHash(img){
+export function pHash(ctx, canvas, img){
     var size = 32,
         smallerSize = 8;
 
-    var canvas = document.createElement('canvas'),
-        ctx = canvas.getContext('2d');
+    /*var canvas = document.createElement('canvas'),
+        ctx = canvas.getContext('2d');*/
 
     document.body.appendChild(canvas)
 
@@ -16,8 +16,8 @@ export function pHash(img){
      * because it is needed to reduce the high frequencies.
      */
 
-    canvas.width = size;
-    canvas.height = size;
+    //canvas.width = size;
+    //canvas.height = size;
     // ctx.drawImage(img, 0, 0, size, size);
     ctx.drawImage(img, 0, -size, size, size * 3);
     var im = ctx.getImageData(0, 0, size, size);
