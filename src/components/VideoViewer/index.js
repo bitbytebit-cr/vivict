@@ -161,11 +161,12 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
+        this.syncPlayers();
         this.righthash = this.rightVideo.getFingerprint();
         this.lefthash = this.leftVideo.getFingerprint();
         this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
         console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
-        if (this.rightVideo.currentTime() > (startPosition + playDuration)
+        if (playDuration > 0 && this.rightVideo.currentTime() > (startPosition + playDuration)
                 || this.leftVideo.currentTime() > (startPosition + playDuration)) {
             this.pause();
             this.seek(startPosition);
