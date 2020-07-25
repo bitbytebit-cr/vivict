@@ -374,6 +374,7 @@ class VideoViewer extends Component {
                  tabIndex="0"
                  ref={this.setVideoViewerRef}>
                 <TimeDisplay position={this.state.position}/>
+                <HammingDisplay hamming={this.hamming}/>
                 <HotKeys className="hotkeys-div" keyMap={KEY_MAP} handlers={this.shortCutHandlers}>
                     <SplitView tracking={this.state.tracking}
                                splitBorderVisible={this.state.splitBorderVisible}
