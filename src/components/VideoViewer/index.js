@@ -88,62 +88,62 @@ class VideoViewer extends Component {
         this.hamming = 0;
         this.lefthash = "11111111111111111111111111111111";
         this.righthash = "21111111111111111111111111111111";
-        // Phash calculation call-back
-        this.calculatePhash = function() {
-            console.log(`AnalyzeFrames()`)
-            if (this.leftVideo.paused || this.leftVideo.ended) {
-              return;
-            }
-            this.analyzeFrames();
-            var self = this;
-            // Render every 10 ms
-            setTimeout(function () {
-                self.calculatePhash();
-              }, 10);
-        };
-        this.getHamming = function() {
-            return this.hamming;
-        }
-        this.getLeftHash = function() {
-            return this.lefthash;
-        }
-        this.getRightHash = function() {
-            return this.righthash;
-        }
-        // Compute PHash hamming distance between left and right frames
-        this.analyzeFrames = function() {
-            // Acquire a video frame from the video element
-            // leftctx, rightctx, hamming
-            // Setup canvases for Phash analyzing
-            if (this.leftVideo == null || this.rightVideo == null) {
-                return;
-            }
-            this.leftframebuffer = document.createElement("canvas");
-            this.leftframebuffer.width = this.leftVideo.videoWidth;
-            this.leftframebuffer.height = this.leftVideo.videoHeight;
-            this.leftctx = this.leftframebuffer.getContext("2d");
-            this.leftctx.drawImage(this.leftVideo, 0, 0, this.leftVideo.videoWidth,
-                        this.leftVideo.videoHeight, 0, 0, this.leftVideo.videoWidth, this.leftVideo.videoHeight);
-            var leftdata = this.leftctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
-            this.rightframebuffer = document.createElement("canvas");
-            this.rightframebuffer.width = this.rightVideo.videoWidth;
-            this.rightframebuffer.height = this.rightVideo.videoHeight;
-            this.rightctx = this.rightframebuffer.getContext("2d");
-            this.rightctx.drawImage(this.rightVideo, 0, 0, this.rightVideo.videoWidth,
-                        this.rightVideo.videoHeight, 0, 0, this.rightVideo.videoWidth, this.rightVideo.videoHeight);
-            var rightdata = this.rightctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
-            // calculate phash
-            this.lefthash = pHash(leftdata);
-            this.righthash = pHash(rightdata);
-            // calc hamming distance
-            this.hamming = hammingDistance(this.lefthash, this.righthash);
-            // draw phash value on frame
-            //this.leftframebuffer.font = "18px Georgia";
-            //this.leftframebuffer.fillText(this.hamming, 10, 10);
-            //this.leftframebuffer.putImageData(leftdata, 0, 0);
-        };
     }
 
+    // Phash calculation call-back
+    this.calculatePhash() {
+        console.log(`AnalyzeFrames()`)
+        if (this.leftVideo.paused || this.leftVideo.ended) {
+          return;
+        }
+        this.analyzeFrames();
+        var self = this;
+        // Render every 10 ms
+        setTimeout(function () {
+            self.calculatePhash();
+          }, 10);
+    };
+    this.getHamming() {
+        return this.hamming;
+    }
+    this.getLeftHash() {
+        return this.lefthash;
+    }
+    this.getRightHash() {
+        return this.righthash;
+    }
+    // Compute PHash hamming distance between left and right frames
+    this.analyzeFrames() {
+        // Acquire a video frame from the video element
+        // leftctx, rightctx, hamming
+        // Setup canvases for Phash analyzing
+        if (this.leftVideo == null || this.rightVideo == null) {
+            return;
+        }
+        this.leftframebuffer = document.createElement("canvas");
+        this.leftframebuffer.width = this.leftVideo.videoWidth;
+        this.leftframebuffer.height = this.leftVideo.videoHeight;
+        this.leftctx = this.leftframebuffer.getContext("2d");
+        this.leftctx.drawImage(this.leftVideo, 0, 0, this.leftVideo.videoWidth,
+                    this.leftVideo.videoHeight, 0, 0, this.leftVideo.videoWidth, this.leftVideo.videoHeight);
+        var leftdata = this.leftctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
+        this.rightframebuffer = document.createElement("canvas");
+        this.rightframebuffer.width = this.rightVideo.videoWidth;
+        this.rightframebuffer.height = this.rightVideo.videoHeight;
+        this.rightctx = this.rightframebuffer.getContext("2d");
+        this.rightctx.drawImage(this.rightVideo, 0, 0, this.rightVideo.videoWidth,
+                    this.rightVideo.videoHeight, 0, 0, this.rightVideo.videoWidth, this.rightVideo.videoHeight);
+        var rightdata = this.rightctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
+        // calculate phash
+        this.lefthash = pHash(leftdata);
+        this.righthash = pHash(rightdata);
+        // calc hamming distance
+        this.hamming = hammingDistance(this.lefthash, this.righthash);
+        // draw phash value on frame
+        //this.leftframebuffer.font = "18px Georgia";
+        //this.leftframebuffer.fillText(this.hamming, 10, 10);
+        //this.leftframebuffer.putImageData(leftdata, 0, 0);
+    }
     setPosition(position) {
         this.setState({position});
     }
