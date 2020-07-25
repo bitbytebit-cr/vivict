@@ -84,7 +84,7 @@ class VideoViewer extends Component {
 
         this.onFullScreenChange = this.onFullScreenChange.bind(this);
 
-        // Get the current hamming distance
+        // Phash variables
         this.hamming = 0;
         this.lefthash = "11111111111111111111111111111111";
         this.righthash = "21111111111111111111111111111111";
@@ -204,12 +204,15 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
-        if (this.hamming == 0) {
+        //if (this.hamming == 0) {
             // Start rendering when the video is playing
             //var self = this;
             //this.videoViewer.addEventListener('play', this.calculatePhash());
-            this.analyzeFrames();
-        }
+            //this.analyzeFrames();
+            this.righthash = this.rightVideo.getFingerprint();
+            this.lefthash = this.leftVideo.getFingerprint();
+            this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
+        //}
         console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
         if (this.rightVideo.currentTime() > (startPosition + playDuration)
                 || this.leftVideo.currentTime() > (startPosition + playDuration)) {

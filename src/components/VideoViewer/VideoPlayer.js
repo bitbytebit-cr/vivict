@@ -3,6 +3,7 @@ import Hls from 'hls.js'
 import dashjs from 'dashjs';
 import {isHlsPlaylist} from "../../util/HlsUtils";
 import {isDashManifest} from "../../util/DashUtils";
+import {pHash, hammingDistance} from "../../util/Phash";
 
 const zoomInMultiplier = 1.1;
 const zoomOutMultiplier = 1/zoomInMultiplier;
@@ -20,6 +21,7 @@ class VideoPlayer extends Component {
         this.setVideoRef =  (videoRef) => {
             this.videoElement = videoRef;
         };
+        this.fingerprint = "";
     }
 
     onTimeUpdate() {
@@ -95,6 +97,39 @@ class VideoPlayer extends Component {
         })
     }
 
+    // Phash calculation call-back
+    calculatePhash() {
+        console.log(`AnalyzeFrame()`)
+        if (this.videoElement.paused || this.videoElement.ended) {
+          return;
+        }
+        this.analyzeFrame();
+        var self = this;
+        // Render every 10 ms
+        setTimeout(function () {
+            self.calculatePhash();
+          }, 10);
+    };
+    getFingerprint() {
+        return this.fingerprint;
+    }
+    // Compute PHash hamming distance between left and right frames
+    analyzeFrame() {
+        // Acquire a video frame from the video element
+        // Setup canvas for Phash analyzing
+        if (this.videoElement == null) {
+            return;
+        }
+        this.framebuffer = document.createElement("canvas");
+        this.framebuffer.width = this.videoElement.videoWidth;
+        this.framebuffer.height = this.videoElement.videoHeight;
+        this.ctx = this.framebuffer.getContext("2d");
+        this.ctx.drawImage(this.videoElement, 0, 0, this.videoElement.videoWidth,
+                    this.videoElement.videoHeight, 0, 0, this.videoElement.videoWidth, this.videoElement.videoHeight);
+        var data = this.ctx.getImageData(0, 0, this.videoElement.videoWidth, this.videoElement.videoHeight);
+        // calculate phash
+        this.fingerprint = pHash(data);
+    }
 
     async loadSource(url, variant) {
         console.log(`load source: ${url} ${variant}`);
@@ -110,6 +145,7 @@ class VideoPlayer extends Component {
                 this.loadDash(url, variant);
             } else {
                 this.videoElement.src = url;
+                this.videoElement.addEventListener('play', this.calculatePhash());
             }
         });
     }
