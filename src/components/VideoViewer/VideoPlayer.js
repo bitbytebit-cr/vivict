@@ -101,15 +101,15 @@ class VideoPlayer extends Component {
     // Phash calculation call-back
     calculatePhash() {
         //console.log(`AnalyzeFrame()`)
-        if (!this.videoElement.paused && !this.videoElement.ended) {
+        //if (!this.videoElement.paused && !this.videoElement.ended) {
             this.analyzeFrame();
-        } else {
+        /*} else {
             var self = this;
             setTimeout(function () {
                 self.calculatePhash();
               }, 30);
             return;
-        }
+        }*/
         // Render every 10 ms
         var self = this;
         setTimeout(function () {
