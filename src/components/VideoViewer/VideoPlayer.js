@@ -99,7 +99,7 @@ class VideoPlayer extends Component {
 
     // Phash calculation call-back
     calculatePhash() {
-        console.log(`AnalyzeFrame()`)
+        //console.log(`AnalyzeFrame()`)
         this.analyzeFrame();
         var self = this;
         // Render every 10 ms
@@ -119,7 +119,7 @@ class VideoPlayer extends Component {
         }
         var width = this.videoElement.videoWidth;
         var height = this.videoElement.videoHeight;
-        console.log(`videoElement width: ${width} height: ${height}`);
+        //console.log(`videoElement width: ${width} height: ${height}`);
         // check if we got a video frame
         if (width <= 0 || height <= 0) {
             return;
