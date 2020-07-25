@@ -87,16 +87,7 @@ class VideoViewer extends Component {
         // Get the current hamming distance
         this.hamming = 0;
         this.lefthash = "11111111111111111111111111111111";
-        this.righthash = "11111111111111111111111111111111";
-        this.getHamming = function() {
-            return this.hamming;
-        }
-        this.getLeftHash = function() {
-            return this.lefthash;
-        }
-        this.getRightHash = function() {
-            return this.righthash;
-        }
+        this.righthash = "21111111111111111111111111111111";
         // Phash calculation call-back
         this.calculatePhash = function() {
             if (this.leftVideo.paused || this.leftVideo.ended) {
@@ -109,6 +100,15 @@ class VideoViewer extends Component {
                 self.calculatePhash();
               }, 10);
         };
+        this.getHamming = function() {
+            return this.hamming;
+        }
+        this.getLeftHash = function() {
+            return this.lefthash;
+        }
+        this.getRightHash = function() {
+            return this.righthash;
+        }
         // Compute PHash hamming distance between left and right frames
         this.analyzeFrames = function() {
             // Acquire a video frame from the video element
