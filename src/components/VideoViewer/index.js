@@ -6,6 +6,7 @@ import './index.css';
 import SourceSelector from '../SourceSelector'
 import SplitView from '../SplitView';
 import TimeDisplay from './TimeDisplay';
+import HammingDisplay from './HammingDisplay';
 import OffsetIndicator from './OffsetIndicator';
 import {Help, HelpButton} from '../Help';
 import {COMMANDS, KEY_MAP} from '../../keymap'
