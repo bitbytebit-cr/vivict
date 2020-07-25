@@ -86,13 +86,15 @@ class VideoViewer extends Component {
 
         // Get the current hamming distance
         this.hamming = 0;
+        this.lefthash = "11111111111111111111111111111111";
+        this.righthash = "11111111111111111111111111111111";
         this.getHamming = function() {
             return this.hamming;
         }
-        this.getLeftHash= function() {
+        this.getLeftHash = function() {
             return this.lefthash;
         }
-        this.getRightHash= function() {
+        this.getRightHash = function() {
             return this.righthash;
         }
         // Phash calculation call-back
@@ -132,10 +134,8 @@ class VideoViewer extends Component {
             // calculate phash
             this.lefthash = pHash(leftdata);
             this.righthash = pHash(rightdata);
-            //console.log(`Phash leftHash: ${this.lefthash} rightHash: ${this.righthash}`);
             // calc hamming distance
             this.hamming = hammingDistance(this.lefthash, this.righthash);
-            //console.log(`Phash hamming: ${this.hamming}`);
             // draw phash value on frame
             //this.leftframebuffer.font = "18px Georgia";
             //this.leftframebuffer.fillText(this.hamming, 10, 10);
@@ -203,7 +203,7 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
-        console.log(`time: ${this.rightVideo.currentTime()} hamming: ${this.getHamming()} lefthash: ${this.getRightHash()} righthash: ${this.getLeftHash()}`);
+        console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
         if (this.rightVideo.currentTime() > (startPosition + playDuration)
                 || this.leftVideo.currentTime() > (startPosition + playDuration)) {
             this.pause();
