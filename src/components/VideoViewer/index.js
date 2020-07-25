@@ -91,7 +91,7 @@ class VideoViewer extends Component {
     }
 
     // Phash calculation call-back
-    this.calculatePhash() {
+    calculatePhash() {
         console.log(`AnalyzeFrames()`)
         if (this.leftVideo.paused || this.leftVideo.ended) {
           return;
@@ -103,17 +103,17 @@ class VideoViewer extends Component {
             self.calculatePhash();
           }, 10);
     };
-    this.getHamming() {
+    getHamming() {
         return this.hamming;
     }
-    this.getLeftHash() {
+    getLeftHash() {
         return this.lefthash;
     }
-    this.getRightHash() {
+    getRightHash() {
         return this.righthash;
     }
     // Compute PHash hamming distance between left and right frames
-    this.analyzeFrames() {
+    analyzeFrames() {
         // Acquire a video frame from the video element
         // leftctx, rightctx, hamming
         // Setup canvases for Phash analyzing
