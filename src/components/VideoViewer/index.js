@@ -93,6 +93,7 @@ class VideoViewer extends Component {
             if (this.leftVideo.paused || this.leftVideo.ended) {
               return;
             }
+            console.log(`AnalyzeFrames()`)
             this.analyzeFrames();
             var self = this;
             // Render every 10 ms
@@ -397,8 +398,8 @@ class VideoViewer extends Component {
             .catch(e => console.trace(e));
         this.videoViewer.addEventListener('fullscreenchange', this.onFullScreenChange);
         // Start rendering when the video is playing
-        var self = this;
-        this.videoViewer.addEventListener('play', function() {self.calculatePhash();}, false);
+        //var self = this;
+        this.videoViewer.addEventListener('play', this.calculatePhash());
     }
 
     componentWillUnmount(){
