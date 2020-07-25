@@ -100,9 +100,6 @@ class VideoPlayer extends Component {
     // Phash calculation call-back
     calculatePhash() {
         console.log(`AnalyzeFrame()`)
-        /*if (this.videoElement.paused || this.videoElement.ended) {
-          return;
-        }*/
         this.analyzeFrame();
         var self = this;
         // Render every 10 ms
@@ -120,13 +117,19 @@ class VideoPlayer extends Component {
         if (this.videoElement == null) {
             return;
         }
+        var width = this.videoElement.videoWidth;
+        var height = this.videoElement.videoHeight;
+        console.log(`videoElement width: ${width} height: ${height}`);
+        // check if we got a video frame
+        if (width <= 0 || height <= 0) {
+            return;
+        }
         this.framebuffer = document.createElement("canvas");
-        this.framebuffer.width = this.videoElement.videoWidth;
-        this.framebuffer.height = this.videoElement.videoHeight;
+        this.framebuffer.width = width;
+        this.framebuffer.height = height;
         this.ctx = this.framebuffer.getContext("2d");
-        this.ctx.drawImage(this.videoElement, 0, 0, this.videoElement.videoWidth,
-                    this.videoElement.videoHeight, 0, 0, this.videoElement.videoWidth, this.videoElement.videoHeight);
-        var data = this.ctx.getImageData(0, 0, this.videoElement.videoWidth, this.videoElement.videoHeight);
+        this.ctx.drawImage(this.videoElement, 0, 0, width, height, 0, 0, width, height);
+        var data = this.ctx.getImageData(0, 0, width, height);
         // calculate phash
         this.fingerprint = pHash(data);
     }
