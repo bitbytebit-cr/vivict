@@ -84,6 +84,7 @@ class VideoViewer extends Component {
         this.onFullScreenChange = this.onFullScreenChange.bind(this);
 
         // Phash variables
+        this.last_hamming = 0;
         this.hamming = 0;
         this.lefthash = "11111111111111111111111111111111";
         this.righthash = "21111111111111111111111111111111";
@@ -163,8 +164,10 @@ class VideoViewer extends Component {
         this.setPosition(time);
         this.righthash = this.rightVideo.getFingerprint();
         this.lefthash = this.leftVideo.getFingerprint();
+        this.last_hamming = this.hamming;
         this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
-        console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
+        var avg_hamming = this.last_hamming + this.hamming / 2;
+        console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} avg: ${avg_hamming} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
         if (playDuration > 0 && (this.rightVideo.currentTime() > (startPosition + playDuration)
                 || this.leftVideo.currentTime() > (startPosition + playDuration))) {
             this.pause();
