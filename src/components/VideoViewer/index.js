@@ -207,7 +207,8 @@ class VideoViewer extends Component {
         if (this.hamming == 0) {
             // Start rendering when the video is playing
             //var self = this;
-            this.videoViewer.addEventListener('play', this.calculatePhash());
+            //this.videoViewer.addEventListener('play', this.calculatePhash());
+            this.analyzeFrames();
         }
         console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
         if (this.rightVideo.currentTime() > (startPosition + playDuration)
