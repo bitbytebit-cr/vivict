@@ -165,8 +165,8 @@ class VideoViewer extends Component {
         this.lefthash = this.leftVideo.getFingerprint();
         this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
         console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
-        if (playDuration > 0 && this.rightVideo.currentTime() > (startPosition + playDuration)
-                || this.leftVideo.currentTime() > (startPosition + playDuration)) {
+        if (playDuration > 0 && (this.rightVideo.currentTime() > (startPosition + playDuration)
+                || this.leftVideo.currentTime() > (startPosition + playDuration))) {
             this.pause();
             this.seek(startPosition);
             alert("Please score the Video Quality using 0-5 with 0 as worst and 5 as best.");
