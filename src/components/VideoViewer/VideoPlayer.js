@@ -120,12 +120,10 @@ class VideoPlayer extends Component {
         // Acquire a video frame from the video element
         // Setup canvas for Phash analyzing
         if (this.videoElement == null || this.fingerprint_ts == this.videoElement.currentTime) {
-            //console.log(`videoElement is null and/or ${this.fingerprint_ts} == ${this.videoElement.currentTime}`);
             return;
         }
         var width = this.videoElement.videoWidth;
         var height = this.videoElement.videoHeight;
-        //console.log(`videoElement width: ${width} height: ${height}`);
         // check if we got a video frame
         if (width <= 0 || height <= 0) {
             return;
