@@ -90,10 +90,10 @@ class VideoViewer extends Component {
         this.righthash = "21111111111111111111111111111111";
         // Phash calculation call-back
         this.calculatePhash = function() {
+            console.log(`AnalyzeFrames()`)
             if (this.leftVideo.paused || this.leftVideo.ended) {
               return;
             }
-            console.log(`AnalyzeFrames()`)
             this.analyzeFrames();
             var self = this;
             // Render every 10 ms
@@ -204,6 +204,11 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
+        if (this.hamming == 0) {
+            // Start rendering when the video is playing
+            //var self = this;
+            this.videoViewer.addEventListener('play', this.calculatePhash());
+        }
         console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
         if (this.rightVideo.currentTime() > (startPosition + playDuration)
                 || this.leftVideo.currentTime() > (startPosition + playDuration)) {
@@ -397,9 +402,6 @@ class VideoViewer extends Component {
         this.seek(startPosition)
             .catch(e => console.trace(e));
         this.videoViewer.addEventListener('fullscreenchange', this.onFullScreenChange);
-        // Start rendering when the video is playing
-        //var self = this;
-        this.videoViewer.addEventListener('play', this.calculatePhash());
     }
 
     componentWillUnmount(){
