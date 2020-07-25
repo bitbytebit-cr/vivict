@@ -104,7 +104,10 @@ class VideoPlayer extends Component {
         if (!this.videoElement.paused && !this.videoElement.ended) {
             this.analyzeFrame();
         } else {
-            console.log(`videoElement is paused: ${this.videoElement.paused} ended: ${this.videoElement.ended}`);
+            setTimeout(function () {
+                self.calculatePhash();
+              }, 30);
+            return;
         }
         var self = this;
         // Render every 10 ms
