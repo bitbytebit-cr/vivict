@@ -104,7 +104,7 @@ class VideoPlayer extends Component {
         if (!this.videoElement.paused && !this.videoElement.ended) {
             this.analyzeFrame();
         } else {
-            console.log(`videoElement is paused and/or ended`);
+            console.log(`videoElement is paused: ${this.videoElement.paused} ended: ${this.videoElement.ended}`);
         }
         var self = this;
         // Render every 10 ms
@@ -120,7 +120,7 @@ class VideoPlayer extends Component {
         // Acquire a video frame from the video element
         // Setup canvas for Phash analyzing
         if (this.videoElement == null || this.fingerprint_ts == this.videoElement.currentTime) {
-            console.log(`videoElement is null and/or ${this.fingerprint_ts} == ${this.videoElement.currentTime}`);
+            //console.log(`videoElement is null and/or ${this.fingerprint_ts} == ${this.videoElement.currentTime}`);
             return;
         }
         var width = this.videoElement.videoWidth;
