@@ -22,7 +22,7 @@ class VideoPlayer extends Component {
             this.videoElement = videoRef;
         };
         this.fingerprint = "";
-        this.fingerprint_ts = 0;
+        this.fingerprint_ts = -1;
     }
 
     onTimeUpdate() {
@@ -101,8 +101,10 @@ class VideoPlayer extends Component {
     // Phash calculation call-back
     calculatePhash() {
         //console.log(`AnalyzeFrame()`)
-        if (this.state.playing) {
+        if (!this.videoElement.paused && !this.videoElement.ended) {
             this.analyzeFrame();
+        } else {
+            console.log(`videoElement is paused and/or ended`);
         }
         var self = this;
         // Render every 10 ms
@@ -117,7 +119,8 @@ class VideoPlayer extends Component {
     analyzeFrame() {
         // Acquire a video frame from the video element
         // Setup canvas for Phash analyzing
-        if (this.videoElement == null) {
+        if (this.videoElement == null || this.fingerprint_ts == this.videoElement.currentTime) {
+            console.log(`videoElement is null and/or ${this.fingerprint_ts} == ${this.videoElement.currentTime}`);
             return;
         }
         var width = this.videoElement.videoWidth;
@@ -134,7 +137,7 @@ class VideoPlayer extends Component {
         this.ctx.drawImage(this.videoElement, 0, 0, width, height, 0, 0, this.framebuffer.width, this.framebuffer.height);
         var im = this.ctx.getImageData(0, 0, this.framebuffer.width, this.framebuffer.height);
         // calculate phash
-        if (this.videoElement != null && this.fingerprint_ts != this.videoElement.currentTime) {
+        if (this.videoElement != null) {
             this.fingerprint_ts = this.videoElement.currentTime;
             this.fingerprint = pHash(im, this.framebuffer);
         } else {
