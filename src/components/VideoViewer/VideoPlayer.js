@@ -132,6 +132,7 @@ class VideoPlayer extends Component {
         var data = this.ctx.getImageData(0, 0, width, height);
         // calculate phash
         if (data != null) {
+            console.log(`getImageData() Object Keys: ${Object.keys(data)}`)
             this.fingerprint = pHash(data);
         } else {
             console.log(`getImageData() returned null data!`);
