@@ -55,18 +55,18 @@ export function pHash(img){
         // construct a lookup table, because it's O(n^4)
         var entries = (2 * N) * (N - 1);
         var COS = new Float64Array(entries);
-        for(var i = 0; i < entries; i++)
-            COS[i] = Math.cos(i / (2 * N) * Math.PI);
+        for(var x = 0; x < entries; x++)
+            COS[x] = Math.cos(x / (2 * N) * Math.PI);
 
         // the core loop inside a loop inside a loop...
         for(var u = 0; u < N; u++){
             for(var v = 0; v < N; v++){
                 var sum = 0;
-                for(var i = 0; i < N; i++){
+                for(var y = 0; y < N; y++){
                     for(var j = 0; j < N; j++){
-                        sum += COS[(2 * i + 1) * u]
+                        sum += COS[(2 * y + 1) * u]
                             * COS[(2 * j + 1) * v]
-                            * f[N * i + j];
+                            * f[N * y + j];
                     }
                 }
                 sum *= ((c[u] * c[v])/4);
@@ -90,7 +90,7 @@ export function pHash(img){
      * picture.
      */
 
-    var vals = []
+    vals = []
     for(var x = 1; x <= smallerSize; x++){
         for(var y = 1; y <= smallerSize; y++){
             vals.push(dctVals[size * x + y])
@@ -128,6 +128,6 @@ export function pHash(img){
 export function hammingDistance(a, b) {
     var dist = 0;
     for(var i = 0; i < a.length; i++)
-        if(a[i] != b[i]) dist++;
+        if(a[i] !== b[i]) dist++;
     return dist;
 }
