@@ -153,6 +153,7 @@ class VideoPlayer extends Component {
                 this.loadDash(url, variant);
             } else {
                 this.videoElement.src = url;
+                this.videoElement.crossOrigin = "Anonymous";
                 this.videoElement.addEventListener('play', this.calculatePhash());
                 console.log("Setup pHash event listener");
             }
