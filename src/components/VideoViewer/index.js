@@ -122,16 +122,16 @@ class VideoViewer extends Component {
             this.leftframebuffer.width = this.leftVideo.videoWidth;
             this.leftframebuffer.height = this.leftVideo.videoHeight;
             this.leftctx = this.leftframebuffer.getContext("2d");
-            this.rightctx.drawImage(this.rightVideo, 0, 0, this.rightVideo.videoWidth,
-                        this.rightVideo.videoHeight, 0, 0, this.rightVideo.videoWidth, this.rightVideo.videoHeight);
-            var rightdata = this.rightctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
+            this.leftctx.drawImage(this.leftVideo, 0, 0, this.leftVideo.videoWidth,
+                        this.leftVideo.videoHeight, 0, 0, this.leftVideo.videoWidth, this.leftVideo.videoHeight);
+            var leftdata = this.leftctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
             this.rightframebuffer = document.createElement("canvas");
             this.rightframebuffer.width = this.rightVideo.videoWidth;
             this.rightframebuffer.height = this.rightVideo.videoHeight;
             this.rightctx = this.rightframebuffer.getContext("2d");
-            this.leftctx.drawImage(this.leftVideo, 0, 0, this.leftVideo.videoWidth,
-                        this.leftVideo.videoHeight, 0, 0, this.leftVideo.videoWidth, this.leftVideo.videoHeight);
-            var leftdata = this.leftctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
+            this.rightctx.drawImage(this.rightVideo, 0, 0, this.rightVideo.videoWidth,
+                        this.rightVideo.videoHeight, 0, 0, this.rightVideo.videoWidth, this.rightVideo.videoHeight);
+            var rightdata = this.rightctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
             // calculate phash
             this.lefthash = pHash(leftdata);
             this.righthash = pHash(rightdata);
