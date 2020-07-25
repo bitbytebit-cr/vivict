@@ -161,7 +161,6 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         this.setPosition(time);
-        this.syncPlayers();
         this.righthash = this.rightVideo.getFingerprint();
         this.lefthash = this.leftVideo.getFingerprint();
         this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
