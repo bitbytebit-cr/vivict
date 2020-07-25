@@ -1,20 +1,10 @@
 // https://ironchef-team21.googlecode.com/git-history/75856e07bb89645d0e56820d6e79f8219a06bfb7/ironchef_team21/src/ImagePHash.java
 
-export function pHash(ctx, canvas){
+export function pHash(im, canvas){
     var size = 32,
         smallerSize = 8;
 
     document.body.appendChild(canvas)
-
-    /* 1. Reduce size.
-     * Like Average Hash, pHash starts with a small image.
-     * However, the image is larger than 8x8; 32x32 is a good size.
-     * This is really done to simplify the DCT computation and not
-     * because it is needed to reduce the high frequencies.
-     */
-
-    //ctx.drawImage(img, 0, -size, size, size * 3);
-    var im = ctx.getImageData(0, 0, size, size);
 
     /* 2. Reduce color.
      * The image is reduced to a grayscale just to further simplify

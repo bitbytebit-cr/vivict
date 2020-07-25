@@ -129,10 +129,11 @@ class VideoPlayer extends Component {
         this.framebuffer.height = 32;
         this.ctx = this.framebuffer.getContext("2d");
         this.ctx.drawImage(this.videoElement, 0, 0, width, height, 0, 0, this.framebuffer.width, this.framebuffer.height);
+        var im = this.ctx.getImageData(0, 0, this.framebuffer.width, this.framebuffer.height);
         // calculate phash
         if (this.videoElement != null) {
-            console.log(`videoElement Object Keys: ${Object.keys(this.videoElement)}`)
-            this.fingerprint = pHash(this.ctx, this.framebuffer);
+            //console.log(`videoElement Object Keys: ${Object.keys(this.videoElement)}`)
+            this.fingerprint = pHash(im, this.framebuffer);
         } else {
             console.log(`videoElement is null!`);
         }
