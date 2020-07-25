@@ -100,9 +100,9 @@ class VideoPlayer extends Component {
     // Phash calculation call-back
     calculatePhash() {
         console.log(`AnalyzeFrame()`)
-        if (this.videoElement.paused || this.videoElement.ended) {
+        /*if (this.videoElement.paused || this.videoElement.ended) {
           return;
-        }
+        }*/
         this.analyzeFrame();
         var self = this;
         // Render every 10 ms
@@ -146,6 +146,7 @@ class VideoPlayer extends Component {
             } else {
                 this.videoElement.src = url;
                 this.videoElement.addEventListener('play', this.calculatePhash());
+                console.log("Setup pHash event listener");
             }
         });
     }
