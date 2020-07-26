@@ -21,7 +21,7 @@ export function pHash(videoElement){
     this.ctx.drawImage(videoElement, 0, 0, width, height, 0, 0, this.framebuffer.width, this.framebuffer.height);
     var im = this.ctx.getImageData(0, 0, this.framebuffer.width, this.framebuffer.height);
 
-    document.body.appendChild(canvas)
+    document.body.appendChild(this.framebuffer)
 
     /* 2. Reduce color.
      * The image is reduced to a grayscale just to further simplify
