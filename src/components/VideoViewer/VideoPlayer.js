@@ -109,15 +109,15 @@ class VideoPlayer extends Component {
           }, 10);
     };
     // get current frames perceptual fingerprint
-    async getFingerprint() {
+    getFingerprint() {
         return this.fingerprint_ts + ":" + this.fingerprint;
     }
     // enable or disable phash processing of each frame, 0 or 1
-    async setQuality(val) {
+    setQuality(val) {
         this.quality = val;
     }
     // Compute PHash hamming distance between left and right frames
-    async analyzeFrame() {
+    analyzeFrame() {
         // Acquire a video frame from the video element
         // Setup canvas for Phash analyzing
         if (this.videoElement == null || this.fingerprint_ts == this.videoElement.currentTime) {
