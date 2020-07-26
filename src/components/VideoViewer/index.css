@@ -212,6 +212,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 .hamming-display {
     color: yellow;
+    background: black;
     position: absolute;
     left: calc(5%);
     top: 4px;
