@@ -181,8 +181,10 @@ class VideoViewer extends Component {
             this.righthash = this.rfp[1];
             this.lfp = this.leftVideo.getFingerprint().split(":");
             this.lefthash = this.lfp[1];
-            if (this.lfp[0] != this.rfp[0] && debugLog) {
-                console.log(`Left and Right Timestamps do not match! left: ${this.lfp[0]} right: ${this.rfp[0]}`);
+            // check if clock skew is happening, sync player if so
+            if (Math.abs(this.lfp[0] - this.rfp[0]) >= 0.5) {
+                console.log(`Left and Right Timestamps skewed, syncing players! left: ${this.lfp[0]} right: ${this.rfp[0]}`);
+                syncPlayers();
             }
             this.last_hamming = this.hamming;
             this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
