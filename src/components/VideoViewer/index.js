@@ -184,6 +184,7 @@ class VideoViewer extends Component {
             // check if clock skew is happening, sync player if so
             if (Math.abs(this.lfp[0] - this.rfp[0]) >= 0.3) {
                 console.log(`Left and Right Timestamps skewed, syncing players! left: ${this.lfp[0]} right: ${this.rfp[0]}`);
+                this.leftVideo.seek(this.rightVideo.currentTime());
                 this.syncPlayers();
             }
             this.last_hamming = this.hamming;
@@ -194,8 +195,7 @@ class VideoViewer extends Component {
                 console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} avg: ${this.avg_hamming} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
             }
         }
-        if (playDuration > 0 && (this.rightVideo.currentTime() > (startPosition + playDuration)
-                || this.leftVideo.currentTime() > (startPosition + playDuration))) {
+        if (playDuration > 0 && this.leftVideo.currentTime() > (startPosition + playDuration)) {
             this.pause();
             // rewind to start position
             this.seek(startPosition);
@@ -254,10 +254,10 @@ class VideoViewer extends Component {
         if (!this.state.playing) {
             return Promise.resolve();
         }
-        await this.rightVideo.pause();
-        await this.leftVideo.pause();
-        await this.setPlaying(false);
-        await this.syncPlayers();
+        this.rightVideo.pause();
+        this.leftVideo.pause();
+        this.setPlaying(false);
+        this.syncPlayers();
         return this.seek(this.leftVideo.currentTime());
     }
 
