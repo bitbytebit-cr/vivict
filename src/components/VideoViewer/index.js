@@ -169,7 +169,7 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         //this.leftVideo.seek(this.rightVideo.currentTime());
-        //this.setPosition(time);
+        this.setPosition(time);
 
         // enable fingerprint per frame in player
         this.rightVideo.setQuality(Number(calcQuality));
@@ -182,7 +182,7 @@ class VideoViewer extends Component {
             this.lfp = this.leftVideo.getFingerprint().split(":");
             this.lefthash = this.lfp[1];
             // check if clock skew is happening, sync player if so
-            if (Math.abs(this.lfp[0] - this.rfp[0]) >= 0.5) {
+            if (Math.abs(this.lfp[0] - this.rfp[0]) >= 0.3) {
                 console.log(`Left and Right Timestamps skewed, syncing players! left: ${this.lfp[0]} right: ${this.rfp[0]}`);
                 this.syncPlayers();
             }
