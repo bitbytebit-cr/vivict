@@ -17,9 +17,9 @@ export function pHash(videoElement){
     var canvas = document.createElement("canvas");
     canvas.width = 32;
     canvas.height = 32;
-    var ctx = this.canvas.getContext("2d");
+    var ctx = canvas.getContext("2d");
     ctx.drawImage(videoElement, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
-    var im = this.ctx.getImageData(0, 0, canvas.width, canvas.height);
+    var im = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
     document.body.appendChild(canvas)
 
