@@ -168,7 +168,7 @@ class VideoViewer extends Component {
     }
 
     onTimeUpdate(time) {
-        await this.rightVideo.seek(this.leftVideo.currentTime());
+        this.rightVideo.seek(this.leftVideo.currentTime());
         this.setPosition(time);
 
         // enable fingerprint per frame in player
