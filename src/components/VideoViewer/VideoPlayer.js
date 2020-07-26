@@ -23,6 +23,7 @@ class VideoPlayer extends Component {
         };
         this.fingerprint = "";
         this.fingerprint_ts = -1;
+        this.quality = 1;
     }
 
     onTimeUpdate() {
@@ -100,16 +101,7 @@ class VideoPlayer extends Component {
 
     // Phash calculation call-back
     calculatePhash() {
-        //console.log(`AnalyzeFrame()`)
-        //if (!this.videoElement.paused && !this.videoElement.ended) {
-            this.analyzeFrame();
-        /*} else {
-            var self = this;
-            setTimeout(function () {
-                self.calculatePhash();
-              }, 30);
-            return;
-        }*/
+        this.analyzeFrame();
         // Render every 10 ms
         var self = this;
         setTimeout(function () {
@@ -118,6 +110,9 @@ class VideoPlayer extends Component {
     };
     getFingerprint() {
         return this.fingerprint;
+    }
+    setQuality(val) {
+        this.quality = val;
     }
     // Compute PHash hamming distance between left and right frames
     analyzeFrame() {
@@ -162,8 +157,10 @@ class VideoPlayer extends Component {
             } else {
                 this.videoElement.src = url;
                 this.videoElement.crossOrigin = "Anonymous";
-                this.videoElement.addEventListener('play', this.calculatePhash());
-                console.log("Setup pHash event listener");
+                if (this.quality == 1) {
+                    this.videoElement.addEventListener('play', this.calculatePhash());
+                    console.log("Setup pHash event listener");
+                }
             }
         });
     }

@@ -34,6 +34,8 @@ const startPosition = Number(urlParams.get('position')) || 0;
 const playDuration = Number(urlParams.get('duration')) || 0;
 const hideSourceSelector = Boolean(urlParams.get('hideSourceSelector'));
 const hideHelp = Boolean(urlParams.get('hideHelp'));
+const calcQuality = Boolean(urlParams.get('quality'));
+const debugLog = Boolean(urlParams.get('debug'));
 
 const DEFAULT_SOURCE_LEFT = {
     type: sourceType(leftVideoUrl),
@@ -83,6 +85,9 @@ class VideoViewer extends Component {
         console.dir(this.state);
 
         this.onFullScreenChange = this.onFullScreenChange.bind(this);
+
+        // enable fingerprint per frame in player
+        this.setQuality(calcQuality);
 
         // Phash variables
         this.frame_count = 0;
@@ -165,15 +170,24 @@ class VideoViewer extends Component {
     }
 
     onTimeUpdate(time) {
-        this.setPosition(time);
-        this.frame_count = this.frame_count + 1;
-        this.righthash = this.rightVideo.getFingerprint();
-        this.lefthash = this.leftVideo.getFingerprint();
-        this.last_hamming = this.hamming;
-        this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
-        this.total_hamming = this.total_hamming + this.hamming;
-        this.avg_hamming = this.total_hamming / this.frame_count;
-        console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} avg: ${this.avg_hamming} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
+        if (calcQuality) {
+            this.setPosition(time);
+            this.frame_count = this.frame_count + 1;
+            this.righthash = this.rightVideo.getFingerprint();
+            this.lefthash = this.leftVideo.getFingerprint();
+            this.last_hamming = this.hamming;
+            this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
+            this.total_hamming = this.total_hamming + this.hamming;
+            n.toLocaleString(
+  undefined, // leave undefined to use the browser's locale,
+             // or use a string like 'en-US' to override it.
+  { minimumFractionDigits: 2 }
+);
+            this.avg_hamming = (this.total_hamming / this.frame_count).toLocaleString(undefined, { minimumFractionDigits: 2 });
+            if (debugLog) {
+                console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} avg: ${this.avg_hamming} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
+            }
+        }
         if (playDuration > 0 && (this.rightVideo.currentTime() > (startPosition + playDuration)
                 || this.leftVideo.currentTime() > (startPosition + playDuration))) {
             this.pause();
@@ -219,6 +233,7 @@ class VideoViewer extends Component {
                 `&rightVideoVariant=${this.state.rightSource.variant}` : "";
             const path = `${window.location.host}${window.location.pathname}?position=${this.state.position}`
             + `&duration=${this.state.duration}`
+            + `&quality=${this.quality}`
             + `&leftVideoUrl=${this.state.leftSource.url}${leftVariantParam}`
             + `&rightVideoUrl=${this.state.rightSource.url}${rightVariantParam}`
             + (urlParams.get('hideSourceSelector') ? `&hideSourceSelector=${urlParams.get('hideSourceSelector')}` : "")
@@ -379,7 +394,12 @@ class VideoViewer extends Component {
                  tabIndex="0"
                  ref={this.setVideoViewerRef}>
                 <TimeDisplay position={this.state.position}/>
+                <div className={cx("hamming-display", {
+                    "hidden": !calcQuality
+                })}
+                >
                 <HammingDisplay hamming={this.hamming} avg_hamming={this.avg_hamming}/>
+                </div>
                 <HotKeys className="hotkeys-div" keyMap={KEY_MAP} handlers={this.shortCutHandlers}>
                     <SplitView tracking={this.state.tracking}
                                splitBorderVisible={this.state.splitBorderVisible}
