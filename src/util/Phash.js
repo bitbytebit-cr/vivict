@@ -14,14 +14,14 @@ export function pHash(videoElement){
     if (width <= 0 || height <= 0) {
         return;
     }
-    this.framebuffer = document.createElement("canvas");
-    this.framebuffer.width = 32;
-    this.framebuffer.height = 32;
-    this.ctx = this.framebuffer.getContext("2d");
-    this.ctx.drawImage(videoElement, 0, 0, width, height, 0, 0, this.framebuffer.width, this.framebuffer.height);
-    var im = this.ctx.getImageData(0, 0, this.framebuffer.width, this.framebuffer.height);
+    var canvas = document.createElement("canvas");
+    canvas.width = 32;
+    canvas.height = 32;
+    var ctx = this.canvas.getContext("2d");
+    ctx.drawImage(videoElement, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
+    var im = this.ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-    document.body.appendChild(this.framebuffer)
+    document.body.appendChild(canvas)
 
     /* 2. Reduce color.
      * The image is reduced to a grayscale just to further simplify
