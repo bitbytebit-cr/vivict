@@ -176,11 +176,11 @@ class VideoViewer extends Component {
             this.leftVideo.seek(this.rightVideo.currentTime());
             this.setPosition(time);
             this.frame_count = this.frame_count + 1;
-            this.rfp= this.rightVideo.getFingerprint().split(":");
+            this.rfp = this.rightVideo.getFingerprint().split(":");
             this.righthash = this.rfp[1];
             this.lfp = this.leftVideo.getFingerprint().split(":");
-            this.lefthash -= this.lfp[1];
-            if (this.lfp[0] != this.rfp[0]) {
+            this.lefthash = this.lfp[1];
+            if (this.lfp[0] != this.rfp[0] && debugLog) {
                 console.log(`Left and Right Timestamps do not match! left: ${this.lfp[0]} right: ${this.rfp[0]}`);
             }
             this.last_hamming = this.hamming;
