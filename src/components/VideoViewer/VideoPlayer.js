@@ -106,7 +106,7 @@ class VideoPlayer extends Component {
         var self = this;
         setTimeout(function () {
             self.calculatePhash();
-          }, 10);
+          }, 0);
     };
     // get current frames perceptual fingerprint
     getFingerprint() {
