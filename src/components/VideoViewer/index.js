@@ -173,10 +173,16 @@ class VideoViewer extends Component {
         this.leftVideo.setQuality(Number(calcQuality));
 
         if (calcQuality) {
+            this.leftVideo.seek(this.rightVideo.currentTime());
             this.setPosition(time);
             this.frame_count = this.frame_count + 1;
-            this.righthash = this.rightVideo.getFingerprint();
-            this.lefthash = this.leftVideo.getFingerprint();
+            this.rfp= this.rightVideo.getFingerprint().split(":");
+            this.righthash = this.rfp[1];
+            this.lfp = this.leftVideo.getFingerprint().split(":");
+            this.lefthash -= this.lfp[1];
+            if (this.lfp[0] != this.rfp[0]) {
+                console.log(`Left and Right Timestamps do not match! left: ${this.lfp[0]} right: ${this.rfp[0]}`);
+            }
             this.last_hamming = this.hamming;
             this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
             this.total_hamming = this.total_hamming + this.hamming;
@@ -244,9 +250,10 @@ class VideoViewer extends Component {
         if (!this.state.playing) {
             return Promise.resolve();
         }
-        this.rightVideo.pause();
-        this.leftVideo.pause();
-        this.setPlaying(false);
+        await this.rightVideo.pause();
+        await this.leftVideo.pause();
+        await this.setPlaying(false);
+        await this.syncPlayers();
         return this.seek(this.leftVideo.currentTime());
     }
 
@@ -391,12 +398,7 @@ class VideoViewer extends Component {
                  tabIndex="0"
                  ref={this.setVideoViewerRef}>
                 <TimeDisplay position={this.state.position}/>
-                <div className={cx("hamming-display", {
-                    "hidden": Boolean(!calcQuality)
-                })}
-                >
-                <HammingDisplay hamming={this.hamming} avg_hamming={this.avg_hamming}/>
-                </div>
+                <HammingDisplay hidden={Boolean(!calcQuality)} hamming={this.hamming} avg_hamming={this.avg_hamming}/>
                 <HotKeys className="hotkeys-div" keyMap={KEY_MAP} handlers={this.shortCutHandlers}>
                     <SplitView tracking={this.state.tracking}
                                splitBorderVisible={this.state.splitBorderVisible}

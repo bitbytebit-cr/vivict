@@ -106,11 +106,13 @@ class VideoPlayer extends Component {
         var self = this;
         setTimeout(function () {
             self.calculatePhash();
-          }, 10);
+          }, 0);
     };
+    // get current frames perceptual fingerprint
     getFingerprint() {
-        return this.fingerprint;
+        return this.fingerprint_ts + ":" + this.fingerprint;
     }
+    // enable or disable phash processing of each frame, 0 or 1
     setQuality(val) {
         this.quality = val;
     }
@@ -121,24 +123,12 @@ class VideoPlayer extends Component {
         if (this.videoElement == null || this.fingerprint_ts == this.videoElement.currentTime) {
             return;
         }
-        var width = this.videoElement.videoWidth;
-        var height = this.videoElement.videoHeight;
-        // check if we got a video frame
-        if (width <= 0 || height <= 0) {
-            return;
-        }
-        this.framebuffer = document.createElement("canvas");
-        this.framebuffer.width = 32;
-        this.framebuffer.height = 32;
-        this.ctx = this.framebuffer.getContext("2d");
-        this.ctx.drawImage(this.videoElement, 0, 0, width, height, 0, 0, this.framebuffer.width, this.framebuffer.height);
-        var im = this.ctx.getImageData(0, 0, this.framebuffer.width, this.framebuffer.height);
         // calculate phash
         if (this.videoElement != null) {
             this.fingerprint_ts = this.videoElement.currentTime;
-            this.fingerprint = pHash(im, this.framebuffer);
+            this.fingerprint = pHash(this.videoElement);
         } else {
-            console.log(`videoElement is null!`);
+            console.log(`analyzeFrame(): videoElement is null, can't pHash(videoElement)!`);
         }
     }
 

@@ -1,8 +1,25 @@
 // https://ironchef-team21.googlecode.com/git-history/75856e07bb89645d0e56820d6e79f8219a06bfb7/ironchef_team21/src/ImagePHash.java
+//
+// Code modified from https://github.com/naptha/phash.js
+//
+// Christopher Kennedy 2020 July (C) Crunchyroll chris@crunchyroll.com
 
-export function pHash(im, canvas){
+export function pHash(videoElement){
     var size = 32,
         smallerSize = 8;
+
+    var width = videoElement.videoWidth;
+    var height = videoElement.videoHeight;
+    // check if we got a video frame
+    if (width <= 0 || height <= 0) {
+        return;
+    }
+    this.framebuffer = document.createElement("canvas");
+    this.framebuffer.width = 32;
+    this.framebuffer.height = 32;
+    this.ctx = this.framebuffer.getContext("2d");
+    this.ctx.drawImage(videoElement, 0, 0, width, height, 0, 0, this.framebuffer.width, this.framebuffer.height);
+    var im = this.ctx.getImageData(0, 0, this.framebuffer.width, this.framebuffer.height);
 
     document.body.appendChild(canvas)
 
