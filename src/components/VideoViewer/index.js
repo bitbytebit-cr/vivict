@@ -94,7 +94,7 @@ class VideoViewer extends Component {
         this.hamming = 0;
         this.lefthash = "11111111111111111111111111111111";
         this.righthash = "21111111111111111111111111111111";
-        this.quality = urlParams.get('calcQuality');
+        this.quality = calcQuality;
     }
 
     getHamming() {
@@ -169,8 +169,8 @@ class VideoViewer extends Component {
 
     onTimeUpdate(time) {
         // enable fingerprint per frame in player
-        this.rightVideo.setQuality(calcQuality);
-        this.leftVideo.setQuality(calcQuality);
+        this.rightVideo.setQuality(Number(calcQuality));
+        this.leftVideo.setQuality(Number(calcQuality));
 
         if (calcQuality) {
             this.setPosition(time);
@@ -392,7 +392,7 @@ class VideoViewer extends Component {
                  ref={this.setVideoViewerRef}>
                 <TimeDisplay position={this.state.position}/>
                 <div className={cx("hamming-display", {
-                    "hidden": urlParams.get('calcQuality')
+                    "hidden": Boolean(!calcQuality)
                 })}
                 >
                 <HammingDisplay hamming={this.hamming} avg_hamming={this.avg_hamming}/>
