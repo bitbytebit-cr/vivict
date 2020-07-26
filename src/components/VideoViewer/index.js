@@ -34,7 +34,7 @@ const startPosition = Number(urlParams.get('position')) || 0;
 const playDuration = Number(urlParams.get('duration')) || 0;
 const hideSourceSelector = Boolean(urlParams.get('hideSourceSelector'));
 const hideHelp = Boolean(urlParams.get('hideHelp'));
-const calcQuality = Boolean(urlParams.get('quality'));
+const calcQuality = Boolean(urlParams.get('quality')) || true;
 const debugLog = Boolean(urlParams.get('debug'));
 
 const DEFAULT_SOURCE_LEFT = {
@@ -94,7 +94,7 @@ class VideoViewer extends Component {
         this.hamming = 0;
         this.lefthash = "11111111111111111111111111111111";
         this.righthash = "21111111111111111111111111111111";
-        this.quality = calcQuality;
+        this.quality = urlParams.get('calcQuality');
     }
 
     getHamming() {
@@ -392,7 +392,7 @@ class VideoViewer extends Component {
                  ref={this.setVideoViewerRef}>
                 <TimeDisplay position={this.state.position}/>
                 <div className={cx("hamming-display", {
-                    "hidden": !this.quality
+                    "hidden": urlParams.get('calcQuality')
                 })}
                 >
                 <HammingDisplay hamming={this.hamming} avg_hamming={this.avg_hamming}/>
