@@ -168,7 +168,7 @@ class VideoViewer extends Component {
     }
 
     onTimeUpdate(time) {
-        this.leftVideo.seek(this.rightVideo.currentTime());
+        //this.leftVideo.seek(this.rightVideo.currentTime());
         this.setPosition(time);
 
         // enable fingerprint per frame in player
@@ -195,6 +195,7 @@ class VideoViewer extends Component {
         if (playDuration > 0 && (this.rightVideo.currentTime() > (startPosition + playDuration)
                 || this.leftVideo.currentTime() > (startPosition + playDuration))) {
             this.pause();
+            // rewind to start position
             this.seek(startPosition);
             alert("Please score the Video Quality using 0-5 with 0 as worst and 5 as best.");
         }
