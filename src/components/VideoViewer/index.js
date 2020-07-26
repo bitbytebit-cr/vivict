@@ -92,8 +92,8 @@ class VideoViewer extends Component {
         this.total_hamming = 0;
         this.avg_hamming = 0;
         this.hamming = 0;
-        this.lefthash = "11111111111111111111111111111111";
-        this.righthash = "21111111111111111111111111111111";
+        this.lefthash = "000000000000000000000000000000000000000000000000000000";
+        this.righthash = "000000000000000000000000000000000000000000000000000000";
         this.quality = calcQuality;
     }
 
@@ -168,13 +168,14 @@ class VideoViewer extends Component {
     }
 
     onTimeUpdate(time) {
+        this.setPosition(time);
+        this.leftVideo.seek(this.rightVideo.currentTime());
+
         // enable fingerprint per frame in player
         this.rightVideo.setQuality(Number(calcQuality));
         this.leftVideo.setQuality(Number(calcQuality));
 
         if (calcQuality) {
-            this.leftVideo.seek(this.rightVideo.currentTime());
-            this.setPosition(time);
             this.frame_count = this.frame_count + 1;
             this.rfp = this.rightVideo.getFingerprint().split(":");
             this.righthash = this.rfp[1];
