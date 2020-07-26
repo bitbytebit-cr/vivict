@@ -391,7 +391,7 @@ class VideoViewer extends Component {
                  ref={this.setVideoViewerRef}>
                 <TimeDisplay position={this.state.position}/>
                 <div className={cx("hamming-display", {
-                    "hidden": !calcQuality
+                    "hidden": !this.quality
                 })}
                 >
                 <HammingDisplay hamming={this.hamming} avg_hamming={this.avg_hamming}/>
