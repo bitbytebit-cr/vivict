@@ -86,10 +86,6 @@ class VideoViewer extends Component {
 
         this.onFullScreenChange = this.onFullScreenChange.bind(this);
 
-        // enable fingerprint per frame in player
-        this.rightVideo.setQuality(calcQuality);
-        this.leftVideo.setQuality(calcQuality);
-
         // Phash variables
         this.frame_count = 0;
         this.last_hamming = 0;
@@ -171,6 +167,10 @@ class VideoViewer extends Component {
     }
 
     onTimeUpdate(time) {
+        // enable fingerprint per frame in player
+        this.rightVideo.setQuality(calcQuality);
+        this.leftVideo.setQuality(calcQuality);
+
         if (calcQuality) {
             this.setPosition(time);
             this.frame_count = this.frame_count + 1;
