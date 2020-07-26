@@ -178,11 +178,6 @@ class VideoViewer extends Component {
             this.last_hamming = this.hamming;
             this.hamming = hammingDistance(this.getLeftHash(), this.getRightHash());
             this.total_hamming = this.total_hamming + this.hamming;
-            n.toLocaleString(
-  undefined, // leave undefined to use the browser's locale,
-             // or use a string like 'en-US' to override it.
-  { minimumFractionDigits: 2 }
-);
             this.avg_hamming = (this.total_hamming / this.frame_count).toLocaleString(undefined, { minimumFractionDigits: 2 });
             if (debugLog) {
                 console.log(`time: ${this.leftVideo.currentTime()} hamming: ${this.getHamming()} avg: ${this.avg_hamming} lefthash: ${this.getLeftHash()} righthash: ${this.getRightHash()}`);
