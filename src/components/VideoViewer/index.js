@@ -94,6 +94,7 @@ class VideoViewer extends Component {
         this.hamming = 0;
         this.lefthash = "11111111111111111111111111111111";
         this.righthash = "21111111111111111111111111111111";
+        this.quality = calcQuality;
     }
 
     getHamming() {
