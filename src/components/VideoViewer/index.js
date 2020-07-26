@@ -184,7 +184,7 @@ class VideoViewer extends Component {
             // check if clock skew is happening, sync player if so
             if (Math.abs(this.lfp[0] - this.rfp[0]) >= 0.3) {
                 console.log(`Left and Right Timestamps skewed, syncing players! left: ${this.lfp[0]} right: ${this.rfp[0]}`);
-                this.leftVideo.seek(this.rightVideo.currentTime());
+                //this.leftVideo.seek(this.rightVideo.currentTime());
                 this.syncPlayers();
             }
             this.last_hamming = this.hamming;
