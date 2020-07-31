@@ -199,7 +199,7 @@ class VideoViewer extends Component {
             this.pause();
             // rewind to start position
             this.seek(startPosition);
-            var score = prompt("Please score the Video Quality using 0-5 with 0 as worst and 5 as best.");
+            var score = prompt("Please score the Right Video's Quality\ncompared to the Left Video's Quality\nusing 0-5 with 0 as horrible and 5 as awesome.");
         }
     }
 
