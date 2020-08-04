@@ -34,8 +34,9 @@ const startPosition = Number(urlParams.get('position')) || 0;
 const playDuration = Number(urlParams.get('duration')) || 0;
 const hideSourceSelector = Boolean(urlParams.get('hideSourceSelector'));
 const hideHelp = Boolean(urlParams.get('hideHelp'));
-const calcQuality = Boolean(urlParams.get('quality')) || true;
-const debugLog = Boolean(urlParams.get('debug'));
+const calcQuality = !Boolean(urlParams.get('quality'));
+const debugLog = !Boolean(urlParams.get('debug'));
+const score = !Boolean(urlParams.get('score'));
 
 const DEFAULT_SOURCE_LEFT = {
     type: sourceType(leftVideoUrl),
@@ -95,6 +96,7 @@ class VideoViewer extends Component {
         this.lefthash = "000000000000000000000000000000000000000000000000000000";
         this.righthash = "000000000000000000000000000000000000000000000000000000";
         this.quality = calcQuality;
+        this.score = score;
     }
 
     getHamming() {
@@ -175,7 +177,7 @@ class VideoViewer extends Component {
         this.rightVideo.setQuality(Number(calcQuality));
         this.leftVideo.setQuality(Number(calcQuality));
 
-        if (calcQuality) {
+        if (Number(calcQuality) == 1) {
             this.frame_count = this.frame_count + 1;
             this.rfp = this.rightVideo.getFingerprint().split(":");
             this.righthash = this.rfp[1];
@@ -198,8 +200,10 @@ class VideoViewer extends Component {
         if (playDuration > 0 && this.leftVideo.currentTime() > (startPosition + playDuration)) {
             this.pause();
             // rewind to start position
-            this.seek(startPosition);
-            var score = prompt("Please score the Right Video's Quality\ncompared to the Left Video's Quality\nusing 0-5 with 0 as horrible and 5 as awesome.");
+            if (score) {
+                var user_score = prompt("Please score the Right Video's Quality\ncompared to the Left Video's Quality\nusing 0-5 with 0 as horrible and 5 as awesome.");
+                this.seek(startPosition);
+            }
         }
     }
 
