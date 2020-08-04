@@ -202,8 +202,8 @@ class VideoViewer extends Component {
             // rewind to start position
             if (score) {
                 var user_score = prompt("Please score the Right Video's Quality\ncompared to the Left Video's Quality\nusing 0-5 with 0 as horrible and 5 as awesome.");
-                this.seek(startPosition);
             }
+            this.seek(startPosition);
         }
     }
 
